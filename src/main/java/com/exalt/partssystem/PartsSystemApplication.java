@@ -1,0 +1,13 @@
+package com.exalt.partssystem;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class PartsSystemApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(PartsSystemApplication.class, args);
+	}
+
+}

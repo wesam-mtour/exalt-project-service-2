@@ -17,4 +17,5 @@ public interface CompanyRepository extends MongoRepository<Company,String> {
             "    }\n" +
             "}")
     List<Company> nearby(Double Longitude, Double Latitude, Double maxDistance );
+
 }

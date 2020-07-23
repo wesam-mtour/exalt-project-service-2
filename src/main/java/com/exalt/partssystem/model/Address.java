@@ -2,19 +2,17 @@ package com.exalt.partssystem.model;
 
 
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 
 public class Address {
     private String country;
     private String city;
     private String street;
+    @GeoSpatialIndexed(name = "address.point", type = GeoSpatialIndexType.GEO_2DSPHERE )
     private GeoJsonPoint point;
 
     public Address() {
-    }
-
-
-    public String getCountry() {
-        return country;
     }
 
     public Address(String country, String city, String street, GeoJsonPoint point) {
@@ -22,6 +20,9 @@ public class Address {
         this.city = city;
         this.street = street;
         this.point = point;
+    }
+    public String getCountry() {
+        return country;
     }
 
     public void setCountry(String country) {

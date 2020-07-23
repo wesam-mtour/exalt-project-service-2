@@ -16,7 +16,7 @@ public class Company {
     public Company() {
     }
 
-    public Company(String name, Image image, Address address) {
+    public Company(String name, Address address) {
         this.name = name;
         this.address = address;
     }

@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface CompanyService {
 
+
+    List<Company> getAll(int page, int pageSize);
     Company save (Company company);
-    List<Company> get(Double Longitude , Double Latitude, Double maxDistance);
+    List<Company> getNearCompany(Double Longitude , Double Latitude, Double maxDistance);
 }

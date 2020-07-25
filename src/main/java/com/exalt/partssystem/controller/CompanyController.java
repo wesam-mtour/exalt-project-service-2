@@ -17,28 +17,34 @@ public class CompanyController {
     private Logger logger = LoggerFactory.getLogger(CompanyController.class);
 
     /*
-    To inject the object productService, implicitly
+    To inject the object companyService, implicitly
      */
     @Autowired
     private CompanyService companyService;
 
-    @GetMapping(value = "/api/v1/companies",params = {"page", "pageSize"})
-    public List<Company> getAllCompany(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize){
-        logger.info("company controller method -getAllCompany");
+    @GetMapping(value = "/api/v1/companies", params = {"page", "pageSize"})
+    public List<Company> getAllCompanies(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
+        logger.info("company controller method -getAllCompanies");
         if (page < 1) {
             throw new NotFoundExceptions("Invalid page number");
         }
         if (pageSize < 1) {
             throw new NotFoundExceptions("Invalid page size number");
         }
-        return companyService.getAll(page,pageSize);
+        return companyService.getAll(page, pageSize);
     }
 
-    @GetMapping(value = "/api/v1/companies", params = {"Longitude", "Latitude","maxDistance"})
+    @GetMapping(value = "/api/v1/companies", params = {"name"})
+    public Company getCompany(@RequestParam("branchName") String name) {
+        logger.info("company controller method -getCompany");
+        return companyService.get(name);
+    }
+
+    @GetMapping(value = "/api/v1/companies", params = {"Longitude", "Latitude", "maxDistance"})
     public List<Company> getNearestCompanies(@RequestParam(name = "Longitude") Double Longitude, @RequestParam(name = "Latitude") Double Latitude,
-                                    @RequestParam(name = "maxDistance") Double maxDistance){
+                                             @RequestParam(name = "maxDistance") Double maxDistance) {
         logger.info("company controller method -getNearestCompanies");
-        return companyService.getNearCompany(Longitude,Latitude,maxDistance);
+        return companyService.getNearCompany(Longitude, Latitude, maxDistance);
     }
 
     @PostMapping(value = "/api/v1/companies")
@@ -46,8 +52,6 @@ public class CompanyController {
         logger.info("company controller method -createNewCompany");
         return companyService.save(company);
     }
-
-
 
 
 }

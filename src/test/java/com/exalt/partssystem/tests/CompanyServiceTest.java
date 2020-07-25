@@ -35,6 +35,19 @@ public class CompanyServiceTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
+
+    @Test
+    public void testGetAll(){
+        Company company = createRandomCompany();
+        ResponseEntity<Company> result = restTemplate.postForEntity("http://localhost:" + localPort + "/api/v1/companies", company, Company.class);
+        List<Company> companies = restTemplate.exchange("http://localhost:" + localPort + "/api/v1/companies/" +
+                        "?page=1&pageSize=2",
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Company>>() {
+                }).getBody();
+        assertEquals(companies.size(), 1);
+
+
+    }
     @Test
     public void testCreateNewCompany() {
         Company company = createRandomCompany();
@@ -82,6 +95,7 @@ public class CompanyServiceTest {
          */
         assertEquals(companies.size(), 2);
     }
+
     public Company createRandomCompany() {
         GeoJsonPoint geoJsonPoint = new GeoJsonPoint(34.49432373, 31.48020882);
         Address address = new Address("Palestine", "Gaza", "Gaza st", geoJsonPoint);

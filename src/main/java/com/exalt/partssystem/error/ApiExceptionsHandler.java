@@ -1,5 +1,8 @@
 package com.exalt.partssystem.error;
 
+import com.exalt.partssystem.error.exceptions.BadRequestExceptions;
+import com.exalt.partssystem.error.exceptions.ConflictExceptions;
+import com.exalt.partssystem.error.exceptions.NotFoundExceptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +22,30 @@ public class ApiExceptionsHandler extends ResponseEntityExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(ApiExceptionsHandler.class);
 
     /*
-     handling exceptions in specific handler
+     handling te exception in specific method
      */
     @ExceptionHandler(NotFoundExceptions.class)
     public ResponseEntity<ErrorFeatures> handleApiException(NotFoundExceptions ex, WebRequest request) {
+        logger.info("ApiExceptionsHandler class");
+        ErrorFeatures error = new ErrorFeatures(ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(error, ex.getStatus());
+    }
+
+    /*
+     handling the exception in specific method
+     */
+    @ExceptionHandler(ConflictExceptions.class)
+    public ResponseEntity<ErrorFeatures> handleApiException(ConflictExceptions ex, WebRequest request) {
+        logger.info("ApiExceptionsHandler class");
+        ErrorFeatures error = new ErrorFeatures(ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(error, ex.getStatus());
+    }
+
+    /*
+     handling the exception in specific method
+     */
+    @ExceptionHandler(BadRequestExceptions.class)
+    public ResponseEntity<ErrorFeatures> handleApiException(BadRequestExceptions ex, WebRequest request) {
         logger.info("ApiExceptionsHandler class");
         ErrorFeatures error = new ErrorFeatures(ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(error, ex.getStatus());

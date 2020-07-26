@@ -20,10 +20,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @ActiveProfiles("dev")
@@ -40,14 +41,15 @@ public class CompanyServiceTest {
     private TestRestTemplate restTemplate;
 
     @AfterEach
-    public void deleteAfterEach(){
+    public void deleteAfterEach() {
         companyRepository.deleteAll();
     }
 
     @Test
-    public void testGetAll(){
+    public void testGetAll() {
         Company company = createRandomCompany();
-        ResponseEntity<Company> result = restTemplate.postForEntity("http://localhost:" + localPort + "/api/v1/companies", company, Company.class);
+        ResponseEntity<Company> result = restTemplate.postForEntity("http://localhost:" + localPort +
+                "/api/v1/companies", company, Company.class);
         /*
           Testing controller
          */
@@ -60,16 +62,13 @@ public class CompanyServiceTest {
          *   Companies List must be returned one company
          */
         assertEquals(companies.size(), 1);
-
-        assertEquals(companies.size(), 1);
-
-
     }
+
     @Test
     public void testCreateNewCompany() {
         Company company = createRandomCompany();
-
-        ResponseEntity<Company> result = restTemplate.postForEntity("http://localhost:" + localPort + "/api/v1/companies", company, Company.class);
+        ResponseEntity<Company> result = restTemplate.postForEntity("http://localhost:" + localPort +
+                "/api/v1/companies", company, Company.class);
         /*
          *   Verify request succeed
          */
@@ -88,19 +87,20 @@ public class CompanyServiceTest {
     @Test
     public void TestGetNearCompany() {
         /*
-         Creating companies "randomly"
+         Creating companies
          */
         GeoJsonPoint geoJsonPoint = new GeoJsonPoint(34.49432373, 31.48020882);
         Address address1 = new Address("Palestine", "Gaza", "Gaza st", geoJsonPoint);
         Company firstCompany = new Company("branch-1", address1);
-        ResponseEntity<Company> result = restTemplate.postForEntity("http://localhost:" + localPort + "/api/v1/companies", firstCompany, Company.class);
+        ResponseEntity<Company> result = restTemplate.postForEntity("http://localhost:" + localPort +
+                "/api/v1/companies", firstCompany, Company.class);
 
         GeoJsonPoint geoJsonPoint1 = new GeoJsonPoint(34.49932373, 31.48020882);
         Address address2 = new Address("Jordan", "Amman", "Amman st", geoJsonPoint1);
         Company secondCompany = new Company("branch-2", address2);
         result = restTemplate.postForEntity("http://localhost:" + localPort + "/api/v1/companies", secondCompany, Company.class);
         /*
-          Testing controller with values "changeable" --> Longitude=34.49432373&Latitude=31.48020882&maxDistance=1000.0
+          Testing controller with values "changeable" --> Longitude=34.49432373&Latitude=31.48020882&maxDistance=1000.0 meter
          */
         List<Company> companies = restTemplate.exchange("http://localhost:" + localPort + "/api/v1/companies/" +
                         "?Longitude=34.49432373&Latitude=31.48020882&maxDistance=1000.0",
@@ -113,11 +113,26 @@ public class CompanyServiceTest {
         assertEquals(companies.size(), 2);
     }
 
+    @Test
+    public void testDelete() throws URISyntaxException {
+        Company company = createRandomCompany();
+        final String baseUrl = "http://localhost:" + localPort + "/api/v1/companies/?name=" + company.getName();
+        URI uri = new URI(baseUrl);
+        restTemplate.delete(uri);
+        /*
+         *   Verify request succeed
+         */
+        ResponseEntity<Company> result = restTemplate.getForEntity("http://localhost:" + localPort +
+                "/api/v1/companies/?name=" + company.getName(), Company.class);
+        assertNull(result.getBody());
+    }
+
     public Company createRandomCompany() {
         GeoJsonPoint geoJsonPoint = new GeoJsonPoint(34.49432373, 31.48020882);
         Address address = new Address("Palestine", "Gaza", "Gaza st", geoJsonPoint);
         Company company = new Company("branch-4", address);
         return company;
     }
+
 
 }

@@ -6,8 +6,18 @@ import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
 
-public interface CompanyRepository extends MongoRepository<Company,String> {
+public interface CompanyRepository extends MongoRepository<Company, String> {
 
+    Company findByName(String name);
+
+    Company deleteByName(String name);
+
+    /**
+     * @param Longitude
+     * @param Latitude
+     * @param maxDistance
+     * @return The closest documents.
+     */
     @Query("{\n" +
             "    \"address.point\": {\n" +
             "        $near: {\n" +
@@ -16,12 +26,7 @@ public interface CompanyRepository extends MongoRepository<Company,String> {
             "        }\n" +
             "    }\n" +
             "}")
-    List<Company> nearby(Double Longitude, Double Latitude, Double maxDistance );
+    List<Company> nearby(Double Longitude, Double Latitude, Double maxDistance);
 
-<<<<<<< HEAD
-    Company deleteByName(String name);
-=======
-    Company findByName(String name);
->>>>>>> de5f104759620a9a27e6804d101efba840b6da25
 
 }

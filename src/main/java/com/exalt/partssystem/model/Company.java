@@ -3,14 +3,18 @@ package com.exalt.partssystem.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.awt.*;
+import javax.validation.constraints.NotNull;
 
+/*
+collection name in database is company
+ */
 @Document(collection = "company")
-
 public class Company {
     @Id
     private String id;
+    @NotNull(message = "Name must not be null")
     private String name;
+    @NotNull(message = "Address must not be null")
     private Address address;
 
     public Company() {

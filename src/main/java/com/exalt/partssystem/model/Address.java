@@ -5,14 +5,20 @@ import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 
+import javax.validation.constraints.NotNull;
+
 public class Address {
+    @NotNull(message = "city must not be null")
     private String city;
+    @NotNull(message = "country must not be null")
     private String country;
+    @NotNull(message = "street must not be null")
     private String street;
     /*
-    Mark a field to be indexed with type GEO_2DSPHERE
+    Mark a field to be indexed in database with type GEO_2DSPHERE
+    because $near operator in company Repository requires a 2DSPHERE index
      */
-    @GeoSpatialIndexed(name = "address.point", type = GeoSpatialIndexType.GEO_2DSPHERE )
+    @GeoSpatialIndexed(name = "address.point", type = GeoSpatialIndexType.GEO_2DSPHERE)
     private GeoJsonPoint point;
 
     public Address() {
@@ -24,6 +30,7 @@ public class Address {
         this.street = street;
         this.point = point;
     }
+
     public String getCountry() {
         return country;
     }

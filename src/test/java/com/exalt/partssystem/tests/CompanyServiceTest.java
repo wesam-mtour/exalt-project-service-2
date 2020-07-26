@@ -61,6 +61,9 @@ public class CompanyServiceTest {
          */
         assertEquals(companies.size(), 1);
 
+        assertEquals(companies.size(), 1);
+
+
     }
     @Test
     public void testCreateNewCompany() {
@@ -109,6 +112,7 @@ public class CompanyServiceTest {
          */
         assertEquals(companies.size(), 2);
     }
+
     public Company createRandomCompany() {
         GeoJsonPoint geoJsonPoint = new GeoJsonPoint(34.49432373, 31.48020882);
         Address address = new Address("Palestine", "Gaza", "Gaza st", geoJsonPoint);

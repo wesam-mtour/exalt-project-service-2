@@ -28,6 +28,11 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     @Transactional
+    public Company get(String name) {
+        return companyRepository.findByName(name);
+    }
+
+    @Override
     public Company save(Company company) {
         companyRepository.deleteByName("test1");
         if (company.getName().equals("test2"))

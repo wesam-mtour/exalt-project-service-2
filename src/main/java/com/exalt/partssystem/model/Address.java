@@ -6,9 +6,12 @@ import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 
 public class Address {
-    private String country;
     private String city;
+    private String country;
     private String street;
+    /*
+    Mark a field to be indexed with type GEO_2DSPHERE
+     */
     @GeoSpatialIndexed(name = "address.point", type = GeoSpatialIndexType.GEO_2DSPHERE )
     private GeoJsonPoint point;
 

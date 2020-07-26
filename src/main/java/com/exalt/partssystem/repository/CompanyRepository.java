@@ -18,4 +18,6 @@ public interface CompanyRepository extends MongoRepository<Company,String> {
             "}")
     List<Company> nearby(Double Longitude, Double Latitude, Double maxDistance );
 
+    Company deleteByName(String name);
+
 }

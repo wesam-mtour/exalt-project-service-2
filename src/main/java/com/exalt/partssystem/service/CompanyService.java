@@ -10,4 +10,5 @@ public interface CompanyService {
     List<Company> getAll(int page, int pageSize);
     Company save (Company company);
     List<Company> getNearCompany(Double Longitude , Double Latitude, Double maxDistance);
+    Company delete(String name);
 }

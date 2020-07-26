@@ -2,6 +2,8 @@ package com.exalt.partssystem.tests;
 
 import com.exalt.partssystem.model.Address;
 import com.exalt.partssystem.model.Company;
+import com.exalt.partssystem.repository.CompanyRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +35,33 @@ public class CompanyServiceTest {
     @LocalServerPort
     private int localPort;
     @Autowired
+    private CompanyRepository companyRepository;
+    @Autowired
     private TestRestTemplate restTemplate;
 
+    @AfterEach
+    public void deleteAfterEach(){
+        companyRepository.deleteAll();
+    }
+
+    @Test
+    public void testGetAll(){
+        Company company = createRandomCompany();
+        ResponseEntity<Company> result = restTemplate.postForEntity("http://localhost:" + localPort + "/api/v1/companies", company, Company.class);
+        /*
+          Testing controller
+         */
+        List<Company> companies = restTemplate.exchange("http://localhost:" + localPort + "/api/v1/companies/" +
+                        "?page=1&pageSize=2",
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Company>>() {
+                }).getBody();
+        /*
+         *   Verify request succeed
+         *   Companies List must be returned one company
+         */
+        assertEquals(companies.size(), 1);
+
+    }
     @Test
     public void testCreateNewCompany() {
         Company company = createRandomCompany();
@@ -70,7 +97,7 @@ public class CompanyServiceTest {
         Company secondCompany = new Company("branch-2", address2);
         result = restTemplate.postForEntity("http://localhost:" + localPort + "/api/v1/companies", secondCompany, Company.class);
         /*
-          Testing url with values "changeable" --> Longitude=34.49432373&Latitude=31.48020882&maxDistance=1000.0
+          Testing controller with values "changeable" --> Longitude=34.49432373&Latitude=31.48020882&maxDistance=1000.0
          */
         List<Company> companies = restTemplate.exchange("http://localhost:" + localPort + "/api/v1/companies/" +
                         "?Longitude=34.49432373&Latitude=31.48020882&maxDistance=1000.0",
@@ -78,7 +105,7 @@ public class CompanyServiceTest {
                 }).getBody();
         /*
          *   Verify request succeed
-         *   Companies List must be returned two Companies, are first company of GAZA and company of  Amman
+         *   Companies List must be returned two Companies, they are company of GAZA and company of  Amman
          */
         assertEquals(companies.size(), 2);
     }
@@ -88,4 +115,5 @@ public class CompanyServiceTest {
         Company company = new Company("branch-4", address);
         return company;
     }
+
 }

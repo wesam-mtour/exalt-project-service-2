@@ -46,6 +46,11 @@ public class CompanyController {
         logger.info("company controller method -createNewCompany");
         return companyService.save(company);
     }
+    @DeleteMapping(value = "/api/v1/companies")
+    public Company deleteCompany(@RequestParam(name = "name") String name) {
+        logger.info("Company controller method -deleteCompany");
+         return companyService.delete(name);
+    }
 
 
 

@@ -10,3 +10,19 @@ eureka:
 spring:
   application :
     name: COMPANY-SERVICE
+  data:
+    mongodb:
+      database: management_system
+      host: localhost
+      port: 27017
+  kafka:
+    consumer:
+      bootstarp-servers: localhost:9092
+      group-id: "my_group_id"
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstarp-servers: locahost:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer

@@ -17,6 +17,25 @@ public class Company {
     @NotNull(message = "Address must not be null")
     private Address address;
 
+    public String getTestName() {
+        return testName;
+    }
+
+    public void setTestName(String testName) {
+        this.testName = testName;
+    }
+
+    public String getExample() {
+        return example;
+    }
+
+    public void setExample(String example) {
+        this.example = example;
+    }
+
+    private String testName;
+    private String example;
+
     public Company() {
     }
 

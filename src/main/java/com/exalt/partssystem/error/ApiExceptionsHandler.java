@@ -44,7 +44,7 @@ public class ApiExceptionsHandler extends ResponseEntityExceptionHandler {
     /*
      handling the exception in specific method
      */
-    @ExceptionHandler(BadRequestExceptions.class)
+    @ExceptionHandler(  BadRequestExceptions.class)
     public ResponseEntity<ErrorFeatures> handleApiException(BadRequestExceptions ex, WebRequest request) {
         logger.info("ApiExceptionsHandler class");
         ErrorFeatures error = new ErrorFeatures(ex.getMessage(), request.getDescription(false));

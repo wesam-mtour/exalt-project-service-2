@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-
 @RestController
 public class CompanyController {
 
@@ -20,6 +19,7 @@ public class CompanyController {
      */
     @Autowired
     private CompanyService companyService;
+
 
     @GetMapping(value = "/api/v1/companies", params = {"page", "pageSize"})
     public List<Company> getAllCompanies(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {

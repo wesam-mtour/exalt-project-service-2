@@ -16,6 +16,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.addFilterBefore(new CustomGatewayFilter(), ConcurrentSessionFilter.class);
+       // http.httpBasic().and()..antMatcher("/**").p
     }
 }

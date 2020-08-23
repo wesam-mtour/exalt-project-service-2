@@ -2,6 +2,7 @@ package com.exalt.partssystem.error;
 
 import com.exalt.partssystem.error.exceptions.BadRequestExceptions;
 import com.exalt.partssystem.error.exceptions.ConflictExceptions;
+import com.exalt.partssystem.error.exceptions.InvalidHeaderFieldException;
 import com.exalt.partssystem.error.exceptions.NotFoundExceptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +47,12 @@ public class ApiExceptionsHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(  BadRequestExceptions.class)
     public ResponseEntity<ErrorFeatures> handleApiException(BadRequestExceptions ex, WebRequest request) {
+        logger.info("ApiExceptionsHandler class");
+        ErrorFeatures error = new ErrorFeatures(ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(error, ex.getStatus());
+    }
+    @ExceptionHandler
+    public ResponseEntity<ErrorFeatures> handleApiException(InvalidHeaderFieldException ex, WebRequest request) {
         logger.info("ApiExceptionsHandler class");
         ErrorFeatures error = new ErrorFeatures(ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(error, ex.getStatus());
